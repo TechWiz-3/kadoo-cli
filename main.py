@@ -1,0 +1,77 @@
+from rich.console import Console
+from rich.table import Table
+from rich import box
+import argparse
+from sys import argv
+import sys
+
+from kadoo_utils import Quadrant
+
+def base_table(new=None,info=None, quadrant=0):
+    table = Table(box=box.MINIMAL)
+
+    table.add_column("", justify="right", style="cyan", no_wrap=True)
+    table.add_column("More Urgent", justify="left", style="cyan", no_wrap=True)
+    table.add_column("Not Urgent", style="magenta")
+
+    if info and quadrant:
+        if quadrant in (1,2):
+            row = Quadrant.get_quadrant(quadrant, info)
+            table.add_row(*row)
+            table.add_row("[b][white]Less Important", "", "")
+        elif quadrant in (3,4):
+            table.add_row("[b][white]Important", "", "")
+            row = Quadrant.get_quadrant(quadrant, info)
+            table.add_row(*row)
+    else:
+        table.add_row("[b][white]Important", "", "")
+        table.add_row("[b][white]Less Important", "", "")
+
+    console = Console()
+    console.print(table)
+
+
+
+def crazy_table(rows):
+    table = Table(box=box.MINIMAL)
+
+    table.add_column("", justify="right", style="cyan", no_wrap=True)
+    table.add_column("More Urgent", justify="left", style="cyan", no_wrap=True)
+    table.add_column("Not Urgent", style="magenta")
+
+    for i, row in enumerate(rows):
+        row = Quadrant.get_row(i+1, row)
+        table.add_row(*row)
+
+    return table
+
+
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-a", "--add", type=str, required=argv in ("-a", "--add", "-r", "--remove"))
+    parser.add_argument("-q", "--quadrant", type=int, choices={1, 2, 3, 4}, required="-a" in argv or "--add" in argv)
+    parser.add_argument("-b", "--base", action="store_true", required=False)
+    parser.add_argument("-r", "--remove", type=str, required=False)
+    args = parser.parse_args()
+
+
+    if args.base:
+        base_table()
+        sys.exit(0)
+
+
+    if args.remove:
+        Quadrant.remove_entry(args.quadrant, args.remove)
+
+    if args.add:
+        Quadrant.add_json(args.quadrant, args.add)
+
+    import json
+    with open("table.json") as j_file:
+        j = json.load(j_file)
+    rows = Quadrant.get_all_quadrants(j)
+    t = crazy_table(rows)
+    console = Console()
+    console.print(t)
