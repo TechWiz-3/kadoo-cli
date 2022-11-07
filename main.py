@@ -32,12 +32,17 @@ def base_table(new=None,info=None, quadrant=0):
 
 
 
-def crazy_table(rows):
+def crazy_table(rows, default=True):
+    if default:
+        table_style = ["cyan", "cyan", "magenta"]
+    else:
+        table_style = ["", "", ""]
+
     table = Table(box=box.MINIMAL)
 
-    table.add_column("", justify="right", style="cyan", no_wrap=True)
-    table.add_column("More Urgent", justify="left", style="cyan", no_wrap=True)
-    table.add_column("Not Urgent", style="magenta")
+    table.add_column("", justify="right", style=table_style[0], no_wrap=True)
+    table.add_column("More Urgent", justify="left", style=table_style[1], no_wrap=True)
+    table.add_column("Not Urgent", style=table_style[2])
 
     for i, row in enumerate(rows):
         row = Quadrant.get_row(i+1, row)
@@ -46,19 +51,23 @@ def crazy_table(rows):
     return table
 
 
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-a", "--add", type=str, required=argv in ("-a", "--add", "-r", "--remove"))
     parser.add_argument("-q", "--quadrant", type=int, choices={1, 2, 3, 4}, required="-a" in argv or "--add" in argv)
     parser.add_argument("-b", "--base", action="store_true", required=False)
     parser.add_argument("-r", "--remove", type=str, required=False)
+    parser.add_argument("--green", action="store_true", required=False)
     args = parser.parse_args()
 
 
     if args.base:
         base_table()
+        sys.exit(0)
+
+
+    if args.quadrant and not args.add:
+        print("bruh")
         sys.exit(0)
 
 
@@ -68,10 +77,14 @@ if __name__ == "__main__":
     if args.add:
         Quadrant.add_json(args.quadrant, args.add)
 
+
     import json
     with open("table.json") as j_file:
         j = json.load(j_file)
     rows = Quadrant.get_all_quadrants(j)
-    t = crazy_table(rows)
+    if args.green:
+        t = crazy_table(rows, default=False)
+    else:
+        t = crazy_table(rows)
     console = Console()
     console.print(t)

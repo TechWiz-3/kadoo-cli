@@ -1,4 +1,9 @@
 import json
+import sys
+
+if "--green" in sys.argv:
+    style_1 = "[dark_green]"
+    style_1_close = "[/dark_green]"
 
 class Quadrant:
 
@@ -39,8 +44,18 @@ class Quadrant:
     @classmethod
     def get_row(self, r_num, rest_of_row):
         if r_num == 1:
+            #rest_of_row[0] = f"[red]{rest_of_row[0]}[/red]"
+
+            # no.3
+            rest_of_row[0] = f"[green3]{rest_of_row[0]}[/green3]"
+            # no. 2
+            rest_of_row[1] = f"[spring_green4]{rest_of_row[1]}[/spring_green4]"
             return "[b][white]Important", *rest_of_row
         if r_num == 2:
+            # no. 3
+            rest_of_row[0] = f"[turquoise4]{rest_of_row[0]}[/turquoise4]"
+            # no. 4
+            rest_of_row[1] = f"[white on dark_green]{rest_of_row[1]}[/white on dark_green]"
             return "[b][white]Less Important", *rest_of_row
 
 
