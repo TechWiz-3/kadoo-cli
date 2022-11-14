@@ -58,6 +58,11 @@ if __name__ == "__main__":
     parser.add_argument("-b", "--base", action="store_true", required=False)
     parser.add_argument("-r", "--remove", type=str, required=False)
     parser.add_argument("--green", action="store_true", required=False)
+    parser.add_argument("--purple", action="store_true", required=False)
+    parser.add_argument("--cat", action="store_true", required=False)
+    parser.add_argument("--solarized", action="store_true", required=False)
+    parser.add_argument("--nord", action="store_true", required=False)
+    parser.add_argument("--nord-aurora", action="store_true", required=False)
     args = parser.parse_args()
 
 
@@ -66,7 +71,7 @@ if __name__ == "__main__":
         sys.exit(0)
 
 
-    if args.quadrant and not args.add:
+    if args.quadrant and not args.add and not args.quadrant:
         print("bruh")
         sys.exit(0)
 
