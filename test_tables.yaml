@@ -1,0 +1,6 @@
+default_table_path: ./table.json
+tables:
+  ayo:
+    Location: lokation
+  work:
+    Location: ./table.json
