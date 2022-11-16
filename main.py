@@ -76,6 +76,7 @@ if __name__ == "__main__":
         subparser.add_argument("-b", "--base", action="store_true", required=False)
         subparser.add_argument("-r", "--remove", type=str, required=False)
         subparser.add_argument("-c", "--complete", type=str, metavar="todo_name", required=False)
+        subparser.add_argument("-ud", "--undone", type=str, metavar="todo_name", required=False)
 
         subparser.add_argument("--green", action="store_true", required=False)
         subparser.add_argument("--purple", action="store_true", required=False)
@@ -166,6 +167,8 @@ if __name__ == "__main__":
 
     if args.complete:
         Quadrant.mark_complete(name=args.complete, quadrant=args.quadrant, path=selected_table_path)
+    elif args.undone:
+        Quadrant.mark_undone(name=args.undone, quadrant=1, path=selected_table_path)
 
     if args.remove:
         Quadrant.remove_entry(args.quadrant, args.remove, path=selected_table_path)
@@ -177,9 +180,6 @@ if __name__ == "__main__":
     with open(selected_table_path) as j_file:
         j = json.load(j_file)
     rows = Quadrant.get_all_quadrants(j)
-    if args.green:
-        t = crazy_table(rows, default=False)
-    else:
-        t = crazy_table(rows)
+    t = crazy_table(rows)
     console = Console()
     console.print(t)

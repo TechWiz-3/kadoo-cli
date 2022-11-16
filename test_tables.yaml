@@ -1,6 +1,0 @@
-default_table_path: ./table.json
-tables:
-  testing123:
-    Location: ./testing123
-  work:
-    Location: ./table.json

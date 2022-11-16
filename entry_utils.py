@@ -180,10 +180,10 @@ class Quadrant:
                     index = quadrant_content.index(todo_item)
 #                    marked = re.sub("○", "[green]✔[/green]", todo_item)
                     # remove the newline and empty circle
-                    marked = re.sub("\n○", "", todo_item)
+                    marked = re.sub("\n○ ", "", todo_item)
                     # apply user configured style with new checkmark and
                     # newline
-                    marked = f"\n[green]✔[/green]{s[0]}{marked}{s[1]}"
+                    marked = f"\n[green]✔[/green] {s[0]}{marked}{s[1]}"
                     # assign changes
                     quadrant_content[index] = marked
                     table[quadrant] = {"content": quadrant_content}
@@ -194,6 +194,35 @@ class Quadrant:
             with open(path, "w") as file:
                 json.dump(table, file, indent=4)
 
+
+    @classmethod
+    def mark_undone(self, quadrant, name, path):
+        quadrant = str(quadrant)
+        changes = False
+        with open(path, "r+") as file:
+            table = json.load(file)
+            quadrant_content = list(table[quadrant].values())[0]
+            for todo_item in quadrant_content:
+                result = re.match(
+#                    rf"\n\[green]✔\[/green] \[[a-z ]*\]([A-Za-z0-9$&+,:;=?@#|'<>.-^*()%! ]*)\[/[a-z ]*\]",
+                    rf"\n\[green]✔\[/green] \[[a-z ]*\]{name}\[/[a-z ]*\]",
+                    todo_item
+                )
+                if result is not None:
+                    print(result.group())
+                    index = quadrant_content.index(result.group())
+                    # replace the green tick with empty circle
+                    marked = re.sub("\[green]✔\[/green]", "\u25cb", result.group())
+                    marked = re.sub(r"\[/[a-z ]*\]", "", marked)
+                    marked = re.sub(r"\[[a-z ]*\]", "", marked)
+                    quadrant_content[index] = marked
+                    print(quadrant_content)
+                    table[quadrant] = {"content": quadrant_content}
+                    changes = True
+        if changes:  # if todo found and changed
+            # rewrite table file
+            with open(path, "w") as file:
+                json.dump(table, file, indent=4)
 
 
     @classmethod
