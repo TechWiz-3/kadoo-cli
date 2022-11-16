@@ -8,15 +8,13 @@
     },
     "2": {
         "content": [
-            "\u25cb hello",
-            "\n\u25cb hey",
-            "\n\u25cb testing :dancer:",
-            "\n\u25cb ayo"
+            "\u25cb ayo",
+            "\n[green]\u2714[/green] [dim]bruh[/dim]"
         ]
     },
     "3": {
         "content": [
-            "\u25cb drives",
+            "\n[green]\u2714[/green] [dim]\u25cb drives[/dim]",
             "\n\u25cb luv :heart:",
             "\n\u25cb bruh"
         ]
@@ -24,7 +22,7 @@
     "4": {
         "content": [
             "\u25cb drives",
-            "\n\u25cb dark :purple_heart:",
+            "\n[green]\u2714[/green] [dim]dark :purple_heart:[/dim]",
             "\n\u25cb dark :purple_heart:"
         ]
     }

@@ -12,8 +12,8 @@ from entry_utils import Quadrant
 from table_utils import get_yaml_config
 from table_utils import get_tables_names
 
-def base_table(new=None,info=None, quadrant=0, table_name=None):
-    table = Table(box=box.MINIMAL, title=table_name)
+def base_table(new=None,info=None, quadrant=0):
+    table = Table(box=box.MINIMAL)
 
     table.add_column("", justify="right", style="cyan", no_wrap=True)
     table.add_column("More Urgent", justify="left", style="cyan", no_wrap=True)
@@ -75,7 +75,7 @@ if __name__ == "__main__":
         subparser.add_argument("-q", "--quadrant", type=int, choices={1, 2, 3, 4}, required=argv in ("-a", "--add"))
         subparser.add_argument("-b", "--base", action="store_true", required=False)
         subparser.add_argument("-r", "--remove", type=str, required=False)
-        subparser.add_argument("-c", "--complete", type=str, metavar="todo_name", required=False)
+        subparser.add_argument("-d", "--done", type=str, metavar="todo_name", required=False)
         subparser.add_argument("-ud", "--undone", type=str, metavar="todo_name", required=False)
 
         subparser.add_argument("--green", action="store_true", required=False)
@@ -101,6 +101,7 @@ if __name__ == "__main__":
     parser.add_argument( "-rt", "--remove-table", type=str,
                         metavar="TABLE_NAME", required=False
         )  # create archived tables in the future
+    # colorschemes
     parser.add_argument("--green", action="store_true", required=False)
     parser.add_argument("--purple", action="store_true", required=False)
     parser.add_argument("--cap", action="store_true", required=False)
@@ -155,20 +156,20 @@ if __name__ == "__main__":
         sys.exit(0)
 
 
-    if args.quadrant and not args.add and not args.complete:
-        print("bruh")
-        sys.exit(0)
     if args.add and not args.quadrant:
         print("bruh")
         sys.exit(1)
-    if args.complete and not args.quadrant:
+    if args.done and not args.quadrant:
+        print("bruh")
+        sys.exit(1)
+    if args.undone and not args.quadrant:
         print("bruh")
         sys.exit(1)
 
-    if args.complete:
-        Quadrant.mark_complete(name=args.complete, quadrant=args.quadrant, path=selected_table_path)
+    if args.done:
+        Quadrant.mark_complete(name=args.done, quadrant=args.quadrant, path=selected_table_path)
     elif args.undone:
-        Quadrant.mark_undone(name=args.undone, quadrant=1, path=selected_table_path)
+        Quadrant.mark_undone(name=args.undone, quadrant=args.quadrant, path=selected_table_path)
 
     if args.remove:
         Quadrant.remove_entry(args.quadrant, args.remove, path=selected_table_path)

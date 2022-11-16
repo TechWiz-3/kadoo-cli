@@ -25,7 +25,6 @@ def get_def_table() -> list:
 def create_new_table(name, location):
         config = get_yaml_config()
         config["tables"][name] = ({'Location': location})
-        print(config)
         with open("tables.yml", "w") as f:
             yaml.dump(config, f)
 

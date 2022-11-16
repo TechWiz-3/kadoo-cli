@@ -23,4 +23,3 @@ class Config:
 
 
 config = Config("kadoo.toml")
-print(config.get_completed_style())
