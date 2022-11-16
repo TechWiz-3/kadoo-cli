@@ -1,5 +1,0 @@
-default_table_path: "./table.json"
-
-tables:
-  work:
-    Location: "./table.json"

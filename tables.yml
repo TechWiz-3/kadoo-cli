@@ -1,0 +1,8 @@
+# default_table_path: ./table.json
+default_table_name: Testing123
+default_table_path: ./testing123.json
+tables:
+  testing123:
+    Location: ./testing123.json
+  work:
+    Location: ./table.json

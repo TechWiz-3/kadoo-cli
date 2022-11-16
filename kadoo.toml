@@ -1,1 +1,7 @@
 default_style = "cat"
+
+default_completed_emoji = "[green]✔[/green]"
+default_incompleted_emoji = "kf"
+
+# completed_style = "dim/strikethrough/green/normal"
+completed_style = "dim strike"

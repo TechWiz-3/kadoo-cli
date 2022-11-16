@@ -1,11 +1,10 @@
 import json
+import re
 import sys
 
 if "--green" in sys.argv:
     style_1 = "[green1]"
     style_1_close = "[/green1]"
-    #style_2 = "[bright_green]"
-    #style_2_close = "[/bright_green]"
     style_2 = "[green3]"
     style_2_close = "[/green3]"
     style_3 = "[green4]"
@@ -13,16 +12,6 @@ if "--green" in sys.argv:
     style_4 = "[dark_green]"
     style_4_close = "[/dark_green]"
 elif "--purple" in sys.argv:
-#    style_1 = "[medium_violet_red]"
-#    style_1_close = "[/medium_violet_red]"
-#    style_2 = "[dark_violet]"
-#    style_2_close = "[/dark_violet]"
-#    style_3 = "[magenta1]"
-#    style_3_close = "[/magenta1]"
-##    style_3 = "[medium_orchid]"
-##    style_3_close = "[/medium_orchid]"
-#    style_4 = "[deep_pink1]"
-#    style_4_close = "[/deep_pink1]"
     style_1 = "[#D67CF7]"
     style_1_close = "[/#D67CF7]"
     style_2 = "[#C86EEE]"
@@ -31,7 +20,7 @@ elif "--purple" in sys.argv:
     style_3_close = "[/#BA60E5]"
     style_4 = "[#963CCF]"
     style_4_close = "[/#963CCF]"
-elif "--cat" in sys.argv:
+elif "--cap" in sys.argv:
     if "frappe" not in sys.argv:
         style_1 = "[#ed8796]"
         style_1_close = "[/#ed8796]"
@@ -141,9 +130,9 @@ class Quadrant:
 
 
     @classmethod
-    def add_json(self, quadrant, info):
+    def add_json(self, quadrant, info, path):
         quadrant = str(quadrant)
-        with open("table.json", "r+") as file:
+        with open(path, "r+") as file:
             table = json.load(file)
             quadrant_content = list(table[quadrant].values())[0]
             if not len(quadrant_content): # 0
@@ -156,13 +145,13 @@ class Quadrant:
 
 
     @classmethod
-    def remove_entry(self, quadrant, name):
+    def remove_entry(self, quadrant, name, path):
         quadrant = str(quadrant)
-        with open("table.json", "r+") as file:
+        with open(path, "r+") as file:
             table = json.load(file)
             quadrant_content = list(table[quadrant].values())[0]
             for i, item in enumerate(quadrant_content):
-                if name == item or f"\n○ {name}" == item:
+                if f"○ {name}" == item or f"\n○ {name}" == item:
                     # change above to also include ○ tick/checkmark
                     if i == 0:
                         quadrant_content.remove(name)
@@ -172,14 +161,44 @@ class Quadrant:
                         quadrant_content.remove(f"\n○ {name}")
                         # same here ^^^^
             table[quadrant] = {"content": quadrant_content}
-        with open("table.json", "w") as file:
-            json.dump(table, file, indent=4)
+            with open(path, "w") as file:
+                json.dump(table, file, indent=4)
+
+
+    @classmethod
+    def mark_complete(self, quadrant, name, path):
+        from config_utils import Config
+        c = Config("kadoo.toml")
+        s = c.get_completed_style()
+        quadrant = str(quadrant)
+        changes = False
+        with open(path, "r+") as file:
+            table = json.load(file)
+            quadrant_content = list(table[quadrant].values())[0]
+            for todo_item in quadrant_content:
+                if todo_item == f"○ {name}" or todo_item == f"\n○ {name}":
+                    index = quadrant_content.index(todo_item)
+#                    marked = re.sub("○", "[green]✔[/green]", todo_item)
+                    # remove the newline and empty circle
+                    marked = re.sub("\n○", "", todo_item)
+                    # apply user configured style with new checkmark and
+                    # newline
+                    marked = f"\n[green]✔[/green]{s[0]}{marked}{s[1]}"
+                    # assign changes
+                    quadrant_content[index] = marked
+                    table[quadrant] = {"content": quadrant_content}
+                    changes = True
+                    break
+        if changes:  # if todo found and changed
+            # rewrite table file
+            with open(path, "w") as file:
+                json.dump(table, file, indent=4)
+
 
 
     @classmethod
     def update_newlines(self, content) -> str:
         """remove the newline char on the next line after deleting the first
         entry"""
-        import re
         content[0] = re.sub("\n", "",  content[0])
         return content

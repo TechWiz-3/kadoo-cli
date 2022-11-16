@@ -1,7 +1,7 @@
 import yaml
 
 
-def get_yaml_config(yaml_path="tables.yaml"):
+def get_yaml_config(yaml_path="tables.yml"):
     with open(yaml_path) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
         return data
@@ -26,8 +26,9 @@ def create_new_table(name, location):
         config = get_yaml_config()
         config["tables"][name] = ({'Location': location})
         print(config)
-        with open("test_tables.yaml", "w") as f:
+        with open("tables.yml", "w") as f:
             yaml.dump(config, f)
+
 
 def delete_table(name):
     config = get_yaml_config()
@@ -35,6 +36,26 @@ def delete_table(name):
         config["tables"].pop(name)
     except KeyError:
         print(f"Table name not found for deletion '{name}'")
+
+
+def initialise_table(name):
+    with open(f"{name}.json", "w") as f:
+        init_dict = {
+        "1": {
+            "content": []
+        },
+        "2": {
+            "content": []
+        },
+        "3": {
+            "content": []
+        },
+        "4": {
+            "content": []
+        }
+    }
+        import json
+        json.dump(init_dict, f, indent=4)
 
 
 if __name__ == "__main__":
