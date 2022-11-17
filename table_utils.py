@@ -27,6 +27,7 @@ def create_new_table(name, location):
         config["tables"][name] = ({'Location': location})
         with open("tables.yml", "w") as f:
             yaml.dump(config, f)
+        print("New table log created")
 
 
 def delete_table(name):
@@ -35,6 +36,10 @@ def delete_table(name):
         config["tables"].pop(name)
     except KeyError:
         print(f"Table name not found for deletion '{name}'")
+    else:
+        with open("tables.yml", "w") as f:
+            yaml.dump(config, f)
+        print("Success")
 
 
 def initialise_table(name):
@@ -55,10 +60,12 @@ def initialise_table(name):
     }
         import json
         json.dump(init_dict, f, indent=4)
+    print("Data entered into table")
 
 
 if __name__ == "__main__":
+    pass
     #print(get_yaml_config())
     #print(get_tables_names())
    # print(get_def_table())
-    print(delete_table(name="ayo"))
+#    print(delete_table(name="ayo"))

@@ -22,4 +22,8 @@ class Config:
         return [open_s, close_s]
 
 
-config = Config("kadoo.toml")
+    def get_default_style(self):
+        return self.config["default_style"]
+
+
+#config = Config("kadoo.toml")

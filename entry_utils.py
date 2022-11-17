@@ -2,7 +2,21 @@ import json
 import re
 import sys
 
-if "--green" in sys.argv:
+
+args = sys.argv
+
+from config_utils import Config
+
+c = Config("kadoo.toml")
+
+style = c.get_default_style()
+
+if not style:
+    pass
+elif args not in ("--green", "--purple", "--cap", "--nord", "--nord-aurora"):
+    args.append(f"--{style}")
+
+if "--green" in args:
     style_1 = "[green1]"
     style_1_close = "[/green1]"
     style_2 = "[green3]"
@@ -11,7 +25,7 @@ if "--green" in sys.argv:
     style_3_close = "[/green4]"
     style_4 = "[dark_green]"
     style_4_close = "[/dark_green]"
-elif "--purple" in sys.argv:
+elif "--purple" in args:
     style_1 = "[#D67CF7]"
     style_1_close = "[/#D67CF7]"
     style_2 = "[#C86EEE]"
@@ -20,8 +34,8 @@ elif "--purple" in sys.argv:
     style_3_close = "[/#BA60E5]"
     style_4 = "[#963CCF]"
     style_4_close = "[/#963CCF]"
-elif "--cap" in sys.argv:
-    if "frappe" not in sys.argv:
+elif "--cap" in args:
+    if "frappe" not in args:
         style_1 = "[#ed8796]"
         style_1_close = "[/#ed8796]"
         style_2 = "[#f5a97f]"
@@ -39,7 +53,7 @@ elif "--cap" in sys.argv:
         style_3_close = "[/#04a5e5]"
         style_4 = "[#8839ef]"
         style_4_close = "[/#8839ef]"
-elif "--solarized" in sys.argv:
+elif "--solarized" in args:
         style_1 = "[#dc322f]"
         style_1_close = "[/#dc322f]"
         style_2 = "[#d33682]"
@@ -48,7 +62,7 @@ elif "--solarized" in sys.argv:
         style_3_close = "[/#268bd2]"
         style_4 = "[#859900]"
         style_4_close = "[/#859900]"
-elif "--nord" in sys.argv:
+elif "--nord" in args:
     style_1 = "[#5e81ac]"
     style_1_close = "[/#5e81ac]"
     style_2 = "[#81a1c1]"
@@ -57,7 +71,7 @@ elif "--nord" in sys.argv:
     style_3_close = "[/#88c0d0]"
     style_4 = "[#8fbcbb]"
     style_4_close = "[/#8fbcbb]"
-elif "--nord-aurora" in sys.argv:
+elif "--nord-aurora" in args:
     style_1 = "[#bf616a]"
     style_1_close = "[/#bf616a]"
     style_2 = "[#d08770]"
@@ -148,11 +162,13 @@ class Quadrant:
     def remove_entry(self, quadrant, name, path):
         quadrant = str(quadrant)
         with open(path, "r+") as file:
+            change = False
             table = json.load(file)
             quadrant_content = list(table[quadrant].values())[0]
             for i, item in enumerate(quadrant_content):
                 if f"○ {name}" == item or f"\n○ {name}" == item:
                     # change above to also include ○ tick/checkmark
+                    ## ^^                                ^^^^^^^
                     if i == 0:
                         quadrant_content.remove(name)
                         # remove the newline on next entry
@@ -160,9 +176,14 @@ class Quadrant:
                     else:
                         quadrant_content.remove(f"\n○ {name}")
                         # same here ^^^^
-            table[quadrant] = {"content": quadrant_content}
+                    change = True
+                    break
+                    table[quadrant] = {"content": quadrant_content}
+        if change:
             with open(path, "w") as file:
                 json.dump(table, file, indent=4)
+        else:
+            print("Not found, no changes made")
 
 
     @classmethod
@@ -202,6 +223,8 @@ class Quadrant:
             # rewrite table file
             with open(path, "w") as file:
                 json.dump(table, file, indent=4)
+        else:
+            print("Not found, no changes made")
 
 
     @classmethod
@@ -223,10 +246,13 @@ class Quadrant:
                     quadrant_content[index] = marked
                     table[quadrant] = {"content": quadrant_content}
                     changes = True
+                    break
         if changes:  # if todo found and changed
             # rewrite table file
             with open(path, "w") as file:
                 json.dump(table, file, indent=4)
+        else:
+            print("Not found, no changes made")
 
 
     @classmethod

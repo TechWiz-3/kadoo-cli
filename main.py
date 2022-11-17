@@ -157,8 +157,15 @@ if __name__ == "__main__":
 
 
     if args.add and not args.quadrant:
-        print("bruh")
-        sys.exit(1)
+        c = Console()
+        args.quadrant = c.input("Which quadrant would you like to place the item in? [1/2/3/4] ")
+        try:
+            args.quadrant = int(args.quadrant)
+        except ValueError:
+            print("Please enter an integer between 1 and 4")
+            sys.exit(1)
+        if args.quadrant not in (1,2,3,4):
+            print("You can only enter a number between 1 and 4! There is no 5th quadrant xD")
     if args.done and not args.quadrant:
         print("bruh")
         sys.exit(1)

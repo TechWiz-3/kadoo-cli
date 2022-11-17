@@ -1,6 +1,10 @@
 default_table_name: Testing123
 default_table_path: ./testing123.json
 tables:
+  arif:
+    Location: ./arif.json
+  sample:
+    Location: ./sample.json
   tafe:
     Location: ./tafe.json
   testing123:
