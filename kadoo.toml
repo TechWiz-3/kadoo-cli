@@ -7,4 +7,5 @@ default_incompleted_emoji = "kf"
 
 # completed_style = "dim/strikethrough/green/normal"
 #completed_style = "dim strike"
-completed_style = "dim"
+#completed_style = "dim"
+completed_style = ""

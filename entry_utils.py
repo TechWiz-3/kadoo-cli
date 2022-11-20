@@ -191,6 +191,11 @@ class Quadrant:
         from config_utils import Config
         c = Config("kadoo.toml")
         s = c.get_completed_style()
+        # if no config style
+        if s[0] == "[]":
+            s[0] = ""
+            s[1] = ""
+        print(s)
         quadrant = str(quadrant)
         changes = False
         with open(path, "r+") as file:
@@ -235,12 +240,24 @@ class Quadrant:
             table = json.load(file)
             quadrant_content = list(table[quadrant].values())[0]
             pattern = re.compile(f"(\n)?\[green]✔\[/green] \[[a-z ]*\]{name}\[/[a-z ]*\]")
+            pattern2 = re.compile(f"(\n)?\[green]✔\[/green] {name}")
             for todo_item in quadrant_content:
                 result = re.match(pattern, todo_item)
+                result2 = re.match(pattern2, todo_item)
                 if result is not None:
                     index = quadrant_content.index(result.group())
                     # replace the green tick with empty circle
                     marked = re.sub("\[green]✔\[/green]", "\u25cb", result.group())
+                    marked = re.sub(r"\[/[a-z ]*\]", "", marked)
+                    marked = re.sub(r"\[[a-z ]*\]", "", marked)
+                    quadrant_content[index] = marked
+                    table[quadrant] = {"content": quadrant_content}
+                    changes = True
+                    break
+                elif result2 is not None:
+                    index = quadrant_content.index(result2.group())
+                    # replace the green tick with empty circle
+                    marked = re.sub("\[green]✔\[/green]", "\u25cb", result2.group())
                     marked = re.sub(r"\[/[a-z ]*\]", "", marked)
                     marked = re.sub(r"\[[a-z ]*\]", "", marked)
                     quadrant_content[index] = marked

@@ -1,12 +1,12 @@
 {
     "1": {
         "content": [
-            "[green]\u2714[/green] [dim]shoes[/dim]"
+            "\u25cb shoes"
         ]
     },
     "2": {
         "content": [
-            "[green]\u2714[/green] [dim strike]socks[/dim strike]"
+            "\u25cb socks"
         ]
     },
     "3": {
