@@ -2,12 +2,20 @@ default_table_name: Testing123
 default_table_path: ./testing123.json
 tables:
   arif:
-    Location: ./arif.json
+    description: for king Arif
+    location: ./arif.json
   sample:
-    Location: ./sample.json
+    description: sample inspired by Bubbletea
+    location: ./sample.json
   tafe:
-    Location: ./tafe.json
+    description: my tafe todo
+    location: ./tafe.json
   testing123:
-    Location: ./testing123.json
+    description: testing...
+    location: ./testing123.json
   work:
-    Location: ./table.json
+    description: noice table
+    location: ./table.json
+  yeahboi:
+    description: our yeahboi friend
+    location: ./yeahboi.json

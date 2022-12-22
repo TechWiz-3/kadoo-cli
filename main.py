@@ -1,6 +1,7 @@
 import sys
 import json
 import argparse
+import textwrap
 
 from sys import argv
 
@@ -11,6 +12,7 @@ from rich import box
 from entry_utils import Quadrant
 from table_utils import get_yaml_config
 from table_utils import get_tables_names
+from table_utils import get_table_description
 
 def base_table(new=None,info=None, quadrant=0):
     table = Table(box=box.MINIMAL)
@@ -36,8 +38,7 @@ def base_table(new=None,info=None, quadrant=0):
     console.print(table)
 
 
-
-def crazy_table(rows, default=True):
+def crazy_table(rows, default=True, style=None):
     if default:
         table_style = ["cyan", "cyan", "magenta"]
     else:
@@ -50,14 +51,16 @@ def crazy_table(rows, default=True):
     table.add_column("Not Urgent", style=table_style[2])
 
     for i, row in enumerate(rows):
-        row = Quadrant.get_row(i+1, row)
+        row = Quadrant.get_row(i+1, row, style=style)
         table.add_row(*row)
 
     return table
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    description = "Just your local (awesome) Eisenhower Decision Matrix"
+    epilog = "styles:\n\tgreen, purple, cap (my favorite), cap-frappe, solarized, nord, nord-aurora"
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, description=description, epilog=textwrap.dedent(epilog))
 
     subparsers = parser.add_subparsers(dest="command")
     tables_used = get_tables_names()
@@ -65,7 +68,7 @@ if __name__ == "__main__":
     subparsers_only = []
     for table in tables_used:
         subparser = None
-        subparser = subparsers.add_parser(name=table[0], help="ayoo")
+        subparser = subparsers.add_parser(name=table[0], help=get_table_description(table[0]))
         subparsers_loaded.append((table[0], table[1]))
         subparsers_only.append(table[0])
         # if only default table then load regular argparse
@@ -78,36 +81,17 @@ if __name__ == "__main__":
         subparser.add_argument("-d", "--done", type=str, metavar="todo_name", required=False)
         subparser.add_argument("-ud", "--undone", type=str, metavar="todo_name", required=False)
 
-        subparser.add_argument("--green", action="store_true", required=False)
-        subparser.add_argument("--purple", action="store_true", required=False)
-        subparser.add_argument("--cap", action="store_true", required=False)
-        subparser.add_argument("--solarized", action="store_true", required=False)
-        subparser.add_argument("--nord", action="store_true", required=False)
-        subparser.add_argument("--nord-aurora", action="store_true", required=False)
+        subparser.add_argument("--style", type=str, metavar="STYLE_NAME", required=False)
 
-    """
-    parser.add_argument("-a", "--add", type=str, required=argv in ("-a",
-                                                                   "--add",
-                                                                   "-r",
-                                                                   "--remove") and argv not in subparsers_loaded)
-    parser.add_argument("-q", "--quadrant", type=int, choices={1, 2, 3, 4},
-                        required="-a" in argv or "--add" in argv and argv not
-                        in subparsers_loaded)
-    parser.add_argument("-r", "--remove", type=str, required=False)
-    """
-
-
-    parser.add_argument("-ct", "--create-table", type=str, metavar="TABLE_NAME", required=False)
-    parser.add_argument( "-rt", "--remove-table", type=str,
-                        metavar="TABLE_NAME", required=False
-        )  # create archived tables in the future
+    # load normal args
+    parser.add_argument(
+                "-ct", "--create-table", type=str, metavar=("TABLE_NAME", "TABLE_DESCRIPTION"), nargs=2, required=False
+                    )
+    parser.add_argument(
+                "-rt", "--remove-table", type=str, metavar="TABLE_NAME", required=False
+                    )  # create archived tables in the future
     # colorschemes
-    parser.add_argument("--green", action="store_true", required=False)
-    parser.add_argument("--purple", action="store_true", required=False)
-    parser.add_argument("--cap", action="store_true", required=False)
-    parser.add_argument("--solarized", action="store_true", required=False)
-    parser.add_argument("--nord", action="store_true", required=False)
-    parser.add_argument("--nord-aurora", action="store_true", required=False)
+    parser.add_argument("--style", type=str, metavar="STYLE_NAME", required=False)
     args = parser.parse_args()
 
     if "-ct" in sys.argv and not args.create_table:
@@ -115,12 +99,12 @@ if __name__ == "__main__":
 
     # table related operations
     if args.create_table:
-        name = args.create_table
+        name, description = args.create_table
         # change this to absolute path later
         location = f"./{name.lower()}.json"
         from table_utils import create_new_table
         from table_utils import initialise_table
-        create_new_table(name, location)
+        create_new_table(name, location, description=description)
         initialise_table(name)
         sys.exit(0)
     elif args.remove_table:
@@ -146,7 +130,7 @@ if __name__ == "__main__":
         with open(selected_table_path) as j_file:
             j = json.load(j_file)
             rows = Quadrant.get_all_quadrants(j)
-            t = crazy_table(rows)
+            t = crazy_table(rows, style=args.style)
         console = Console()
         console.print(t)
         sys.exit(0)
@@ -188,6 +172,6 @@ if __name__ == "__main__":
     with open(selected_table_path) as j_file:
         j = json.load(j_file)
     rows = Quadrant.get_all_quadrants(j)
-    t = crazy_table(rows)
+    t = crazy_table(rows, style=args.style)
     console = Console()
     console.print(t)

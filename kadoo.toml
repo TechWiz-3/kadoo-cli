@@ -1,6 +1,6 @@
 default_style = "cap"
 
-colorscheme = "nord"
+colorscheme = "cap"
 
 default_completed_emoji = "[green]✔[/green]"
 default_incompleted_emoji = "kf"

@@ -11,7 +11,7 @@ def get_tables_names() -> list:
     tables = []
     data = get_yaml_config()
     for table_info in data["tables"].items():
-        table_data = (table_info[0], table_info[1]["Location"])
+        table_data = (table_info[0], table_info[1]["location"])
         tables.append(table_data)
     return tables
 
@@ -22,9 +22,15 @@ def get_def_table() -> list:
     return data["default_table_path"]
 
 
-def create_new_table(name, location):
+def get_table_description(table_name) -> str:
+    """gets table's description"""
+    data = get_yaml_config()
+    return data["tables"][table_name]["description"]
+
+
+def create_new_table(name, location, description="no description"):
         config = get_yaml_config()
-        config["tables"][name] = ({'Location': location})
+        config["tables"][name] = ({'location': location, 'description': description})
         with open("tables.yml", "w") as f:
             yaml.dump(config, f)
         print("New table log created")
