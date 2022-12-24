@@ -105,10 +105,10 @@ def cli():
 
     first_run = False
     # first time running
-    if not start_utils.is_kadoo_setup():
+    if not kadoo.start_utils.is_kadoo_setup():
         first_run = True
         print("Setting up...")
-        start_utils.setup_kadoo()
+        kadoo.start_utils.setup_kadoo()
         if not args.create_table:  # create a new table since the user hasn't
             table_name = c.input("Enter the name of your first todo table: ")
             description = c.input(

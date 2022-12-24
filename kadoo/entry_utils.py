@@ -2,15 +2,14 @@ import json
 import re
 import sys
 
+from kadoo.config_utils import Config
+from kadoo.start_utils import KADOO
 
 args = sys.argv
 
-from config_utils import Config
-
-c = Config("kadoo.toml")
-
 
 def get_style_tags():
+    c = Config(f"{KADOO}/kadoo.toml")
     configured_style = c.get_default_style()
 
     if not configured_style:
