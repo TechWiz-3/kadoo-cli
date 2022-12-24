@@ -40,3 +40,16 @@ $ kadoo dev -a "Work on a new project" -q 1
 The matrix sorts tasks based on urgency and importance.  
 
 <img src="https://luxafor.com/wp-content/uploads/2022/06/The-Eisenhower-Decision-Matrix-png-1024x768.png" alt="Eisenhower Matrix" width="400">
+
+## Configuration
+
+Kadoo is highly configurable. Data files are stored in the `~/.kadoo` directory.  
+Tables can be added manually to `~/.kadoo/tables.yml` and the default table can be changed there (a command for this will be released in future updates).  
+
+The `kadoo.toml` file allows configuration of the style (colorscheme), completed task style and emoji.  
+
+Configuration for `kadoo.toml` follows [Rich Markup](https://rich.readthedocs.io/en/latest/markup.html). A recommended value for `completed_style` would be `dim strikethrough`
+
+In the future configuration options will be added for:
+1. Incompleted task emoji
+2. Table style
