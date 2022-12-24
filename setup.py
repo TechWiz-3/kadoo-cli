@@ -22,13 +22,13 @@ setup(
     description="The priorities management CLI you never knew you needed",
     url="https://github.com/TechWiz-3/kadoo-cli",
     author="Zac the Wise aka TechWiz-3",
-    version="0.0.1",
+    version="0.1.0",
     packages=["kadoo"],
     long_description=read_file,
     long_description_content_type="text/markdown",
     entry_points="""
     [console_scripts]
-    unfollow=unfollow.cli:main
+    kadoo=unfollow.cli:main
     """,
     classifiers=classifiers,
     install_requires=["rich", "toml"],

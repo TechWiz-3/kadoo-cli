@@ -15,7 +15,7 @@ from kadoo.table_utils import get_tables_names
 from kadoo.table_utils import get_table_description
 import kadoo.start_utils
 
-KADOO = start_utils.KADOO
+KADOO = kadoo.start_utils.KADOO
 
 def base_table(new=None,info=None, quadrant=0):
     table = Table(box=box.MINIMAL)
@@ -60,7 +60,7 @@ def crazy_table(rows, default=True, style=None):
     return table
 
 
-if __name__ == "__main__":
+def cli():
     c = Console()
 
     description = "Just your local (awesome) Eisenhower Decision Matrix"
@@ -212,3 +212,7 @@ if __name__ == "__main__":
     t = crazy_table(rows, style=args.style)
     console = Console()
     console.print(t)
+
+
+if __name__ == "__main__":
+    cli()
