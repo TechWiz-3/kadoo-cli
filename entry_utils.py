@@ -202,7 +202,6 @@ class Quadrant:
         if s[0] == "[]":
             s[0] = ""
             s[1] = ""
-        print(s)
         quadrant = str(quadrant)
         changes = False
         with open(path, "r+") as file:

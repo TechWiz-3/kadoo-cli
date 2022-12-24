@@ -1,7 +1,7 @@
 {
     "1": {
         "content": [
-            "\u25cb shoes"
+            "[green]\u2714[/green] shoes"
         ]
     },
     "2": {
@@ -10,9 +10,13 @@
         ]
     },
     "3": {
-        "content": []
+        "content": [
+            "[green]\u2714[/green] knees"
+        ]
     },
     "4": {
-        "content": []
+        "content": [
+            "\u25cb shorts"
+        ]
     }
 }
