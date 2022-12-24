@@ -168,3 +168,4 @@ cython_debug/
 
 *.json
 .DS_Store
+*.yml
