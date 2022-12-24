@@ -7,7 +7,7 @@
 Kadoo organises your priorities using the Eisenhower Decision Matrix.  
 
 ## Installation
-
+**Coming really soon**
 ```sh
 pip install kadoo
 ```
