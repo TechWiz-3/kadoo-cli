@@ -195,7 +195,7 @@ class Quadrant:
 
     @classmethod
     def mark_complete(self, quadrant, name, path):
-        from config_utils import Config
+        from kadoo.config_utils import Config
         c = Config("kadoo.toml")
         s = c.get_completed_style()
         # if no config style

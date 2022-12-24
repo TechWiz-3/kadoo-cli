@@ -1,6 +1,6 @@
 import yaml
 
-from start_utils import KADOO
+from kadoo.start_utils import KADOO
 
 
 def get_yaml_config(yaml_path=f"{KADOO}/tables.yml"):

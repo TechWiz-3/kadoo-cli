@@ -9,11 +9,11 @@ from rich.console import Console
 from rich.table import Table
 from rich import box
 
-from entry_utils import Quadrant
-from table_utils import get_yaml_config
-from table_utils import get_tables_names
-from table_utils import get_table_description
-import start_utils
+from kadoo.entry_utils import Quadrant
+from kadoo.table_utils import get_yaml_config
+from kadoo.table_utils import get_tables_names
+from kadoo.table_utils import get_table_description
+import kadoo.start_utils
 
 KADOO = start_utils.KADOO
 
@@ -116,7 +116,7 @@ if __name__ == "__main__":
             )
             # TODO: change this to absolute path later
             location = f"{KADOO}/{table_name.lower()}.json"
-            from table_utils import create_new_table
+            from kadoo.table_utils import create_new_table
             create_new_table(
                 table_name, location, description=description, first=True
             )
@@ -126,14 +126,14 @@ if __name__ == "__main__":
         name, description = args.create_table
         # TODO: change this to absolute path later
         location = f"{KADOO}/{name.lower()}.json"
-        from table_utils import create_new_table
+        from kadoo.table_utils import create_new_table
         create_new_table(
             name, location, description=description, first=first_run
         )
         sys.exit(0)
     elif args.remove_table:
         name = args.remove_table
-        from table_utils import delete_table
+        from kadoo.table_utils import delete_table
         delete_table(name)
         sys.exit(0)
     # regular operations
@@ -145,7 +145,7 @@ if __name__ == "__main__":
                 # multiple tables at the same time
                 break
         else:  # no table subparser was used, use default table
-            from table_utils import get_def_table
+            from kadoo.table_utils import get_def_table
             # use default
             selected_table_path = get_def_table()
 
