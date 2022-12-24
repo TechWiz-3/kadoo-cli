@@ -4,13 +4,25 @@
 
 > The priorities management CLI you never knew you needed
 
-Kadoo organises your priorities using the Eisenhower Decision Matric.  
+Kadoo organises your priorities using the Eisenhower Decision Matrix.  
+
+## Installation
+
+```sh
+pip install kadoo
+```
 
 ## Usage
 
 ```sh
-# view default table
+# get started by creating your first matrix board
 $ kadoo
+
+# to perform actions on your new table, use it's name
+$ kadoo <table_name>
+
+# add an item to quadrant 1
+$ kadoo <table_name> -a "My first item" -q 1
 
 # create a new table: kadoo -ct <TABLE_NAME> <TABLE_DESCRIPTION>
 $ kadoo -ct dev "My developer tasks"
@@ -29,4 +41,3 @@ $ kadoo dev -a "Work on a new project" -q 1
 The matrix sorts tasks based on urgency and importance.  
 
 <img src="https://luxafor.com/wp-content/uploads/2022/06/The-Eisenhower-Decision-Matrix-png-1024x768.png" alt="Eisenhower Matrix" width="400">
-

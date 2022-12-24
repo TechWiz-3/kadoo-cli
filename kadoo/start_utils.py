@@ -5,11 +5,12 @@ import yaml
 import toml
 
 KADOO = os.path.expanduser("~/.kadoo")
-#KADOO = "./testing"
+# KADOO = "./testing"
 
 # create .kadoo dir
 # create tables.yml
 # create kadoo.toml
+
 
 def is_kadoo_setup():
     return os.path.exists(KADOO)
