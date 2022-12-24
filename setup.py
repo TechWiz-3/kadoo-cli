@@ -31,5 +31,5 @@ setup(
     unfollow=unfollow.cli:main
     """,
     classifiers=classifiers,
-    install_requires=["rich"],
+    install_requires=["rich", "toml"],
     )
