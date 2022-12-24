@@ -1,6 +1,6 @@
 # Kadoo
 
-![Example](https://github.com/TechWiz-3/kadoo-cli/blob/main/media/example1.png?raw=true)
+![Example](https://github.com/TechWiz-3/kadoo-cli/blob/main/media/example2.png?raw=true)
 
 > The priorities management CLI you never knew you needed
 
