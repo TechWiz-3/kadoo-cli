@@ -33,7 +33,7 @@ $ kadoo dev -a "Work on a new project" -q 1
 $ kadoo dev -a "Star this repo xDD" -q 2
 
 # mark a task as done: kadoo <TABLE_NAME> -d "<TASK_NAME>" -q <QUADRANT>
-$ kadoo dev -a "Work on a new project" -q 1
+$ kadoo dev -d "Work on a new project" -q 1
 ```
 
 ## About 
