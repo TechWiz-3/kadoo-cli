@@ -1,1 +1,4 @@
-# later :)
+default_style = "green/purple/cap/cap-frappe/solarized/nord/nord-aurora"
+default_completed_emoji = "[green]✔[/green]"
+completed_style = "dim strikethrough"
+default_incompleted_emoji = ""  # coming soon
